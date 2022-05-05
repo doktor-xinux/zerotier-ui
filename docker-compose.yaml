@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+ docker-host:
+   image: qoomon/docker-host
+   cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
+   restart: on-failure
+
+ zero-ui:
+   image: xinux/zerotier-ui:latest
+   container_name: zu-main
+   build:
+     context: .
+     dockerfile: ./docker/Dockerfile
+   restart: unless-stopped
+   depends_on:
+     - docker-host
+   extra_hosts:
+     - "host.docker.internal:host-gateway"
+   volumes:
+     - /var/lib/zerotier-one:/var/lib/zerotier-one
+     - ./zero-ui_data:/app/config/
+   environment:
+     - ZU_CONTROLLER_ENDPOINT=http://docker-host:9993/
+     - ZU_DEFAULT_USERNAME=admin
+     - ZU_DEFAULT_PASSWORD=geheim
+   expose:
+     - "80"
+       # https-proxy:
+       #   image: caddy:latest
+       #   container_name: zu-https-proxy
+       #   restart: unless-stopped
+       #   depends_on:
+       #     - zero-ui
+       #   command: caddy reverse-proxy --from example.de --to zero-ui:80
+       #   volumes:
+       #     - ./caddy_data:/data
+       #   ports:
+       #     - "80:80"
+       #     - "443:443"  
