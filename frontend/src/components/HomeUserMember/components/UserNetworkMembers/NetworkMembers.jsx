@@ -17,6 +17,8 @@ function NetworkMembers( val ) {
   
   const [members, setMembers] = useState([...val.members]);
   const [askwhy, setAskWhy] = useState(false);
+  const [mid, setMid] = useState();
+  const [nwid, setNwid] = useState();
 
   const sendReq = async (nwid ,mid, data) => {
     const req = await API.post("/network/" + nwid + "/member/" + mid, [data]);
@@ -41,7 +43,8 @@ function NetworkMembers( val ) {
       mutableMembers[index] = updatedMember;
       
       setMembers(mutableMembers);
-
+      setMid(member["address"])
+      setNwid(val.nwid)
       sendReq(val.nwid, member["address"], mutableMembers[index]);
     };
 
@@ -90,7 +93,7 @@ function NetworkMembers( val ) {
       </AccordionSummary>
       <AccordionDetails>
         <Grid container direction="column" spacing={3}>
-        <AskWhy open={askwhy} handleClose={handleClose}></AskWhy>
+        <AskWhy nwid={nwid} mid={mid} open={askwhy} handleClose={handleClose}></AskWhy>
           <Grid container>
             {members.length ? (
               <DataTable

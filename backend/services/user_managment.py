@@ -55,3 +55,12 @@ class USER_MANAGMENT():
         if name == None:
             name = "Dummy Name"
         return name
+    
+    def deauth(self, nwid, mid):
+       zerotier_api.make_request("POST", f"/controller/network/{nwid}/member/{mid}", json = {"authorized" : False})
+       
+
+    def convert(self, hours : int): 
+        minuts  = hours  * 60
+        seconds = minuts * 60
+        return seconds

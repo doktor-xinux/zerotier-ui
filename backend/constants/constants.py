@@ -9,14 +9,19 @@ from loguru import logger
 
 from vars import DARWIN, LINUX
 
+
 sys_vars = DARWIN() if os.uname().sysname == "Darwin" else LINUX()
+
+if os.path.isdir(sys_vars.default_config_path) == False:
+    os.mkdir(sys_vars.default_config_path)
+    
+    
 db           = Zero_DB()
 hash         = HASH()
 zerotier_api = ZEROTIER_REST_API()
 logger  = LogurLogger(logger).getlogger()
 
-if os.path.isdir(sys_vars.default_config_path) == False:
-    os.mkdir(sys_vars.default_config_path)
+
 
 pw_hash = hash.hash_password(sys_vars.default_admin_creditals.get("passwort"))
 

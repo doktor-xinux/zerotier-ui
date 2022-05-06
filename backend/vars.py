@@ -19,11 +19,9 @@ class OS_DEFAULTS():
         "passwort" : password
         }
     
-    try:
-        default_rule_source = open("./constants/default_rules_source.txt").read()
-        default_rules       = open("./constants/default_rules.json").read()
-    except:
-        pass
+    default_rule_source = open("./constants/default_rules_source.txt").read()
+    default_rules       = open("./constants/default_rules.json").read()
+
 
     
 class DARWIN(OS_DEFAULTS):

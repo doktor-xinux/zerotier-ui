@@ -1,8 +1,6 @@
 from flask import jsonify, request, Blueprint
-from requests import HTTPError
 from untils.response import Response
-import sys
-import os
+from threading import Timer
 import sys, os
 sys.path.append(os.getcwd())
 from constants.constants import *
@@ -76,6 +74,8 @@ def api_user_managment_log_reason(user : str):
 
     if request.method == 'POST':
         logger.info(f'Reason : {request.json["reason"]}  |  Duration : {request.json["duration"]}', ip=request.remote_addr, username=user)
+        t = Timer(services_user_managment.convert(request.json["duration"]), services_user_managment.deauth, args=(request.json["nwid"],request.json["mid"]))
+        t.start()     
     
     response_object = Response(200, "ok")
     return jsonify(response_object)

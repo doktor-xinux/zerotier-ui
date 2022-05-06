@@ -28,7 +28,7 @@ function AskWhy(val) {
     const handleSubmit = async () => {
         console.log(reason.current.value)
         axios
-          .post("/api/user-managment/member/" + LoggedInUsername + "/reason", {"reason": reason.current.value, "duration": time})
+          .post("/api/user-managment/member/" + LoggedInUsername + "/reason", {"nwid" : val.nwid, "mid" : val.mid, "reason": reason.current.value, "duration": time})
           .catch(function (error) {
             console.error(error);
           });
