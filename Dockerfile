@@ -7,6 +7,4 @@ ENV UWSGI_INI /app/uwsgi.ini
 
 RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
-ENV UWSGI_INI /application/uwsgi.ini
-
 COPY ./backend /app
